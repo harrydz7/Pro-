@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hanjla Harry Content Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Alegreya:wght@700;800&family=Alegreya+Sans+SC:wght@400;500;700&family=Amaranth:wght@400;700&family=Boogaloo&family=Khand:wght@300;400;500;600;700&family=Rozha+One&family=Teko:wght@400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif; /* Default, will be overridden by theme */
+      transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, font-family 0.3s ease-in-out;
+    }
+
+    /* Dark mode styles */
+    .dark .card-container { background-color: #1f2937; /* bg-gray-800 */ }
+    .card-container { background-color: #ffffff; }
+    .dark .card-container .bg-gray-50 { background-color: #374151; /* bg-gray-700 */ }
+
+    .dark input[type="text"],
+    .dark input[type="password"],
+    .dark input[type="number"],
+    .dark input[type="color"],
+    .dark input[type="date"],
+    .dark input[type="time"],
+    .dark select,
+    .dark textarea {
+      background-color: #374151; /* bg-gray-700 */
+      color: #d1d5db; /* text-gray-300 */
+      border-color: #4b5563; /* border-gray-600 */
+    }
+    .dark input::placeholder,
+    .dark textarea::placeholder {
+      color: #9ca3af; /* placeholder-gray-400 */
+    }
+    .dark select option {
+        background-color: #374151;
+        color: #d1d5db;
+    }
+
+    /* Custom WebKit scrollbar styles (can be overridden by Tailwind utilities if plugin is used) */
+    /* For Webkit browsers */
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+        @apply bg-gray-100 dark:bg-gray-800 rounded-lg;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        @apply bg-gray-400 dark:bg-gray-600 rounded-lg;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+        @apply bg-gray-500 dark:bg-gray-500;
+    }
+
+    /* For Firefox (partial support, requires enabling in about:config) */
+    .scrollbar-thin {
+        scrollbar-width: thin;
+        scrollbar-color: theme('colors.gray.400') theme('colors.gray.100'); /* thumb track */
+    }
+    .dark .scrollbar-thin {
+         scrollbar-color: theme('colors.gray.600') theme('colors.gray.800'); /* thumb track */
+    }
+
+    /* CSS Variables for theming */
+    :root {
+      --app-primary-color: #6366F1; /* Default primary color (indigo-500) */
+      --app-primary-color-hover: #4F46E5; /* Default primary color hover (indigo-600) */
+      --app-primary-color-text: #ffffff; /* Default text color for primary bg */
+      --app-font-family: 'Inter', sans-serif;
+      --app-bg: #f3f4f6; /* Default light bg */
+    }
+
+    .dark:root {
+      --app-bg: #111827; /* Default dark bg */
+    }
+    
+    body {
+        font-family: var(--app-font-family);
+        background: var(--app-bg);
+        color: #1f2937; /* Default text color for light mode (gray-800) */
+    }
+    .dark body {
+        color: #f9fafb; /* Default text color for dark mode (gray-50) */
+    }
+
+    .text-primary { color: var(--app-primary-color); }
+    .bg-primary { 
+      background-color: var(--app-primary-color);
+      color: var(--app-primary-color-text, #ffffff); /* Use dynamic text color with fallback */
+    }
+    .border-primary { border-color: var(--app-primary-color); }
+    .ring-primary { ring-color: var(--app-primary-color); } /* For focus rings etc. */
+
+    .hover\:bg-primary-hover:hover { 
+      background-color: var(--app-primary-color-hover);
+      color: var(--app-primary-color-text, #ffffff);
+    }
+
+    /* Ensure nav links with primary bg use the correct contrasting text color */
+    .bg-primary.text-white {
+        color: var(--app-primary-color-text, #ffffff) !important;
+    }
+    /* Specific fix for sidebar active link text */
+    .text-primary-text {
+        color: var(--app-primary-color-text, #ffffff);
+    }
+    
+    /* Notification Animations */
+    @keyframes toast-in-right {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes toast-out-right {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+    .toast-in {
+      animation: toast-in-right 0.5s ease-out forwards;
+    }
+    .toast-out {
+      animation: toast-out-right 0.5s ease-in forwards;
+    }
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes unfurl {
+      0% {
+        transform: scaleY(0) scaleX(0.5);
+        opacity: 0;
+      }
+      100% {
+        transform: scaleY(1) scaleX(1);
+        opacity: 1;
+      }
+    }
+    @keyframes ring {
+      0%, 100% { transform: rotate(0); }
+      10%, 30%, 50%, 70%, 90% { transform: rotate(-10deg); }
+      20%, 40%, 60%, 80% { transform: rotate(10deg); }
+    }
+    .animate-ring {
+      animation: ring 1s ease-in-out;
+    }
+
+
+  </style>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            'sans': ['Inter', 'sans-serif'], // Fallback, body style will override
+            'inter': ['Inter', 'sans-serif'],
+            'alegreya-serif': ['Alegreya', 'serif'],
+            'alegreya-sans-sc': ['"Alegreya Sans SC"', 'sans-serif'],
+            'amaranth': ['Amaranth', 'sans-serif'],
+            'boogaloo': ['Boogaloo', 'cursive'],
+            'khand': ['Khand', 'sans-serif'],
+            'rozh-one': ['"Rozha One"', 'serif'],
+            'roboto': ['Roboto', 'sans-serif'],
+            'open-sans': ['"Open Sans"', 'sans-serif'],
+            'lato': ['Lato', 'sans-serif'],
+            'merriweather': ['Merriweather', 'serif'],
+            'nunito-sans': ['"Nunito Sans"', 'sans-serif'],
+            'teko': ['Teko', 'sans-serif'],
+          },
+          colors: {
+            gray: {
+              750: '#31394a',
+            },
+            // Primary color can be referenced via var(--app-primary-color) for JIT
+          }
+        }
+      },
+      plugins: [ 
+        // require('@tailwindcss/custom-forms'), // Example plugin
+      ]
+    }
+  </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/client": "https://esm.sh/react-dom@^19.1.0/client",
+    "react/jsx-runtime": "https://esm.sh/react@^19.1.0/jsx-runtime",
+    "react-router-dom": "https://esm.sh/react-router-dom@6?deps=react@^19.1.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.5.1",
+    "dom-to-image-more": "https://esm.sh/dom-to-image-more@^3.1.6",
+    "jszip": "https://esm.sh/jszip@^3.10.1",
+    "face-api.js": "https://esm.sh/@vladmandic/face-api@1.7.13",
+    "@/": "./",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "html2canvas": "https://esm.sh/html2canvas@^1.4.1",
+    "express": "https://esm.sh/express@^5.1.0",
+    "cors": "https://esm.sh/cors@^2.8.5",
+    "path": "https://esm.sh/path@^0.12.7",
+    "fs": "https://esm.sh/fs@^0.0.1-security",
+    "puppeteer": "https://esm.sh/puppeteer@^24.14.0",
+    "puppeteer-extra": "https://esm.sh/puppeteer-extra@^3.3.6",
+    "puppeteer-extra-plugin-stealth": "https://esm.sh/puppeteer-extra-plugin-stealth@^2.11.2",
+    "url": "https://esm.sh/url@^0.11.4",
+    "node-fetch": "https://esm.sh/node-fetch@^3.3.2"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

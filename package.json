@@ -1,0 +1,38 @@
+{
+  "name": "copy-of-developed-by-hanjla-harry",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom/client": "^19.1.0",
+    "react/jsx-runtime": "^19.1.0",
+    "react-router-dom": "6?deps=react@^19.1.0",
+    "@google/genai": "^1.5.1",
+    "dom-to-image-more": "^3.1.6",
+    "jszip": "^3.10.1",
+    "face-api.js": "vladmandic",
+    "@": "latest",
+    "react-dom": "^19.1.0",
+    "html2canvas": "^1.4.1",
+    "express": "^5.1.0",
+    "cors": "^2.8.5",
+    "path": "^0.12.7",
+    "fs": "^0.0.1-security",
+    "puppeteer": "^24.14.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "url": "^0.11.4",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0"
+  }
+}
